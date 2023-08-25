@@ -6,11 +6,13 @@ import 'package:get/get.dart';
 class temasServicos{
   final _box = GetStorage();
   final _key =  'ModoDark';
-  
+  _salvarTemaDaBox(bool ModoDark)=> _box.write(_key, ModoDark);
+
   bool _carregarTemadaBox() => _box.read(_key)??false;
   ThemeMode get theme => _carregarTemadaBox()?ThemeMode.dark:ThemeMode.light;
   void trocarTema(){
     Get.changeThemeMode(_carregarTemadaBox()?ThemeMode.light:ThemeMode.dark);
+    _salvarTemaDaBox(!_carregarTemadaBox());
   }
 
 }

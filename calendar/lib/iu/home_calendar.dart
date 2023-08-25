@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:calendar/servicos/servicosTemas.dart';
 
 class HomeCalendar extends StatefulWidget {
   const HomeCalendar({super.key});
@@ -24,7 +25,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
     return AppBar(
       leading: GestureDetector(
         onTap: () {
-          print("tapped");
+          temasServicos().trocarTema();
         },
         child: Icon(Icons.nightlight_round, size: 20),
         
