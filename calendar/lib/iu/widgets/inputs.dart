@@ -33,7 +33,6 @@ class InputAgendamentos extends StatelessWidget {
             children: [
               Expanded(
                 child: TextFormField(
-                  readOnly: Widget == null ? false : true,
                   autofocus: false,
                   cursorColor: Get.isDarkMode ? Colors.grey[100] : Colors.grey,
                   controller: controller,

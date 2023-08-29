@@ -1,4 +1,5 @@
 import 'package:calendar/iu/Temas.dart';
+import 'package:calendar/iu/widgets/botao.dart';
 import 'package:calendar/iu/widgets/inputs.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,18 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
   DateTime dataSelecionada = DateTime.now();
   String tempoFinal = "9:30";
   String tempoInicial = DateFormat("hh:mm a").format(DateTime.now()).toString();
-  int lenbrete = 5; //PAREI AQUI = 1:34:36
+  int _lenbreteSelecionado = 5; 
+  List<int> listaLembrete =[
+    5,10,15,20,
+  ];
+
+  String _lenbreteSelecionadoRepetir = "Nenhum"; 
+  List<String> listaRepetir =[
+    "Nenhum","Diário","Semanalmente","Mensalmente"
+  ];
+  
+  int _corSelecionada = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,8 +43,8 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
                 style: headingStyle,
               ),
               //CRUD DO AGENDAMENTO
-              InputAgendamentos(titulo: "Titulo", dica: "Digite seu titulo"),
-              InputAgendamentos(titulo: "Nota", dica: "Digite sua nota"),
+              InputAgendamentos(titulo: "Titulo", dica: "Digite seu titulo..."),
+              InputAgendamentos(titulo: "Nota", dica: "Digite sua nota..."),
               InputAgendamentos(
                 titulo: "Data",
                 dica: DateFormat.yMd().format(dataSelecionada),
@@ -70,14 +82,101 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
                     )
                   )
                 ],
-              )
+              ),
+              InputAgendamentos(titulo: "Lembrete", dica: "$_lenbreteSelecionado minutos restantes",
+                widget:DropdownButton(
+                  icon: Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
+                  iconSize: 32, 
+                  elevation: 4,
+                  style: subTituloStyle, 
+                  underline: Container(height: 0,),
+                  onChanged: (String ?novoValor) {
+                    setState(() {
+                      _lenbreteSelecionado = int.parse(novoValor!);
+                    });
+                  },
+                  items: listaLembrete.map<DropdownMenuItem<String>>((int valor){
+                    return DropdownMenuItem<String>(
+                        value: valor.toString(),
+                        child: Text(valor.toString()),
+                    );
+                  }).toList(),                 
+                )   
+              ),
+              InputAgendamentos(titulo: "Repetir", dica: "$_lenbreteSelecionadoRepetir",
+                widget:DropdownButton(
+                  icon: Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
+                  iconSize: 32, 
+                  elevation: 4,
+                  style: subTituloStyle, 
+                  underline: Container(height: 0,),
+                  onChanged: (String ?novoValor) {
+                    setState(() {
+                      _lenbreteSelecionadoRepetir = novoValor!;
+                    });
+                  },
+                  items: listaRepetir.map<DropdownMenuItem<String>>((String? valor){
+                    return DropdownMenuItem<String>(
+                        value: valor.toString(),
+                        child: Text(valor!, style: TextStyle(color: Colors.grey),),
+                    );
+                  }).toList(),                 
+                )   
+              ),
+              SizedBox(height: 18,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  
+                  _paletaDeCor(),
+                  Botao(label: "Criar Age", onTap:()=>null)
+                ],
+              ),
             ],
           ),
         ),
       ),
     );
   }
+  
+_validacaoAgendamento(){
+  //PAREI AQUI -- 2:02:20
+}
 
+  _paletaDeCor(){
+      return  Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Cores",style: tituloStyle,),
+          SizedBox(height: 18),
+          Wrap(
+            children: List<Widget>.generate(
+                3,
+                (int index){
+                return GestureDetector(
+                  onTap: (){
+                    setState(() {
+                      _corSelecionada = index;
+                      print("$index");
+                    });    
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: CircleAvatar(
+                      radius: 14,
+                      backgroundColor: index ==0? primaryClr:index ==1?rosaClr:amareloClr,
+                      child: _corSelecionada==index?Icon(Icons.done,color: Colors.white,size: 16,):Container()
+                    ),
+                  ),
+                );
+                } 
+            ),
+            
+          ),
+        ],
+      );
+  }
 
   _AppBar(BuildContext context) {
     return AppBar(
