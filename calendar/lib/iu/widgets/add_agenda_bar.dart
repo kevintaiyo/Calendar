@@ -1,6 +1,8 @@
+import 'package:calendar/controles/task.controle.dart';
 import 'package:calendar/iu/Temas.dart';
 import 'package:calendar/iu/widgets/botao.dart';
 import 'package:calendar/iu/widgets/inputs.dart';
+import 'package:calendar/modelos/tarefa.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +15,12 @@ class addAgendametoPagina extends StatefulWidget {
 }
 
 class _addAgendametoPaginaState extends State<addAgendametoPagina> {
+  final TaskControle _taskControle = Get.put(TaskControle());
+  final TextEditingController _tituloController = TextEditingController();
+  final TextEditingController _notaController = TextEditingController();
+
   DateTime dataSelecionada = DateTime.now();
-  String tempoFinal = "9:30";
+  String tempoFinal = "00:00";
   String tempoInicial = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int _lenbreteSelecionado = 5; 
   List<int> listaLembrete =[
@@ -43,8 +49,8 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
                 style: headingStyle,
               ),
               //CRUD DO AGENDAMENTO
-              InputAgendamentos(titulo: "Titulo", dica: "Digite seu titulo..."),
-              InputAgendamentos(titulo: "Nota", dica: "Digite sua nota..."),
+              InputAgendamentos(titulo: "Titulo", dica: "Digite seu titulo...", controller: _tituloController ,),
+              InputAgendamentos(titulo: "Nota", dica: "Digite sua nota...",controller:_notaController ,),
               InputAgendamentos(
                 titulo: "Data",
                 dica: DateFormat.yMd().format(dataSelecionada),
@@ -130,7 +136,7 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
                 children: [
                   
                   _paletaDeCor(),
-                  Botao(label: "Criar Age", onTap:()=>null)
+                  Botao(label: "Criar Age", onTap:()=> _validacaoDeData())
                 ],
               ),
             ],
@@ -140,9 +146,34 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
     );
   }
   
-_validacaoAgendamento(){
-  //PAREI AQUI -- 2:02:20
+_validacaoDeData(){
+  if(_tituloController.text.isNotEmpty&&_notaController.text.isNotEmpty){
+    _addAgendamentoParaODb();
+    Get.back();
+  }else if(_tituloController.text.isEmpty || _notaController.text.isEmpty){
+    Get.snackbar("Requerido"," Todos os campos são obrigatorios!"
+    ,snackPosition: SnackPosition.BOTTOM,
+    backgroundColor: Colors.white,
+    icon: Icon(Icons.warning_amber_rounded,color: Colors.red,)
+    );
+  }
 }
+
+  _addAgendamentoParaODb(){
+    _taskControle.addTask(
+      task:Task(
+      nota:  _notaController.text,
+      titulo: _tituloController.text,
+      data: DateFormat.yMd().format(dataSelecionada),
+      tempoInicial: tempoInicial,
+      tempoFinal: tempoFinal,
+      lembrar: _lenbreteSelecionado,
+      repetir: _lenbreteSelecionadoRepetir,
+      cor: _corSelecionada,
+      estaCompleto: 0,
+    )
+    );
+  }
 
   _paletaDeCor(){
       return  Column(

@@ -32,6 +32,7 @@ class _HomeCalendarState extends State<HomeCalendar> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _AppBar(),
+      backgroundColor: context.theme.backgroundColor,
       body: Column(children: [
         addAgendamento(),
         addDataBar() //BOTAO DOS AGENDAMENTO SENDO CHAMADO AQUI
