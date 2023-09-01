@@ -22,16 +22,22 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
   DateTime dataSelecionada = DateTime.now();
   String tempoFinal = "00:00";
   String tempoInicial = DateFormat("hh:mm a").format(DateTime.now()).toString();
-  int _lenbreteSelecionado = 5; 
-  List<int> listaLembrete =[
-    5,10,15,20,
+  int _lenbreteSelecionado = 5;
+  List<int> listaLembrete = [
+    5,
+    10,
+    15,
+    20,
   ];
 
-  String _lenbreteSelecionadoRepetir = "Nenhum"; 
-  List<String> listaRepetir =[
-    "Nenhum","Diário","Semanalmente","Mensalmente"
+  String _lenbreteSelecionadoRepetir = "Nenhum";
+  List<String> listaRepetir = [
+    "Nenhum",
+    "Diário",
+    "Semanalmente",
+    "Mensalmente"
   ];
-  
+
   int _corSelecionada = 0;
 
   @override
@@ -49,8 +55,16 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
                 style: headingStyle,
               ),
               //CRUD DO AGENDAMENTO
-              InputAgendamentos(titulo: "Titulo", dica: "Digite seu titulo...", controller: _tituloController ,),
-              InputAgendamentos(titulo: "Nota", dica: "Digite sua nota...",controller:_notaController ,),
+              InputAgendamentos(
+                titulo: "Titulo",
+                dica: "Digite seu titulo...",
+                controller: _tituloController,
+              ),
+              InputAgendamentos(
+                titulo: "Nota",
+                dica: "Digite sua nota...",
+                controller: _notaController,
+              ),
               InputAgendamentos(
                 titulo: "Data",
                 dica: DateFormat.yMd().format(dataSelecionada),
@@ -66,77 +80,105 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
               ),
               Row(
                 children: [
-                  Expanded(child: InputAgendamentos(
-                    titulo: "Tempo Inicial",dica: tempoInicial,widget: IconButton(
-                      onPressed: (){
+                  Expanded(
+                      child: InputAgendamentos(
+                    titulo: "Tempo Inicial",
+                    dica: tempoInicial,
+                    widget: IconButton(
+                      onPressed: () {
                         _pegarTempoDoUsuario(oTempoInicial: true);
-                      },icon: Icon(
-                        Icons.access_time_filled_rounded,color: Colors.grey,
+                      },
+                      icon: Icon(
+                        Icons.access_time_filled_rounded,
+                        color: Colors.grey,
                       ),
                     ),
-                    )
+                  )),
+                  SizedBox(
+                    width: 12,
                   ),
-                  SizedBox(width: 12,),
-                  Expanded(child: InputAgendamentos(
-                    titulo: "Tempo Final",dica: tempoFinal,widget: IconButton(
-                      onPressed: (){
+                  Expanded(
+                      child: InputAgendamentos(
+                    titulo: "Tempo Final",
+                    dica: tempoFinal,
+                    widget: IconButton(
+                      onPressed: () {
                         _pegarTempoDoUsuario(oTempoInicial: false);
-                      },icon: Icon(
-                        Icons.access_time_filled_rounded,color: Colors.grey,
+                      },
+                      icon: Icon(
+                        Icons.access_time_filled_rounded,
+                        color: Colors.grey,
                       ),
                     ),
-                    )
-                  )
+                  ))
                 ],
               ),
-              InputAgendamentos(titulo: "Lembrete", dica: "$_lenbreteSelecionado minutos restantes",
-                widget:DropdownButton(
-                  icon: Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
-                  iconSize: 32, 
-                  elevation: 4,
-                  style: subTituloStyle, 
-                  underline: Container(height: 0,),
-                  onChanged: (String ?novoValor) {
-                    setState(() {
-                      _lenbreteSelecionado = int.parse(novoValor!);
-                    });
-                  },
-                  items: listaLembrete.map<DropdownMenuItem<String>>((int valor){
-                    return DropdownMenuItem<String>(
+              InputAgendamentos(
+                  titulo: "Lembrete",
+                  dica: "$_lenbreteSelecionado minutos restantes",
+                  widget: DropdownButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
+                    iconSize: 32,
+                    elevation: 4,
+                    style: subTituloStyle,
+                    underline: Container(
+                      height: 0,
+                    ),
+                    onChanged: (String? novoValor) {
+                      setState(() {
+                        _lenbreteSelecionado = int.parse(novoValor!);
+                      });
+                    },
+                    items: listaLembrete
+                        .map<DropdownMenuItem<String>>((int valor) {
+                      return DropdownMenuItem<String>(
                         value: valor.toString(),
                         child: Text(valor.toString()),
-                    );
-                  }).toList(),                 
-                )   
-              ),
-              InputAgendamentos(titulo: "Repetir", dica: "$_lenbreteSelecionadoRepetir",
-                widget:DropdownButton(
-                  icon: Icon(Icons.keyboard_arrow_down,color: Colors.grey,),
-                  iconSize: 32, 
-                  elevation: 4,
-                  style: subTituloStyle, 
-                  underline: Container(height: 0,),
-                  onChanged: (String ?novoValor) {
-                    setState(() {
-                      _lenbreteSelecionadoRepetir = novoValor!;
-                    });
-                  },
-                  items: listaRepetir.map<DropdownMenuItem<String>>((String? valor){
-                    return DropdownMenuItem<String>(
+                      );
+                    }).toList(),
+                  )),
+              InputAgendamentos(
+                  titulo: "Repetir",
+                  dica: "$_lenbreteSelecionadoRepetir",
+                  widget: DropdownButton(
+                    icon: Icon(
+                      Icons.keyboard_arrow_down,
+                      color: Colors.grey,
+                    ),
+                    iconSize: 32,
+                    elevation: 4,
+                    style: subTituloStyle,
+                    underline: Container(
+                      height: 0,
+                    ),
+                    onChanged: (String? novoValor) {
+                      setState(() {
+                        _lenbreteSelecionadoRepetir = novoValor!;
+                      });
+                    },
+                    items: listaRepetir
+                        .map<DropdownMenuItem<String>>((String? valor) {
+                      return DropdownMenuItem<String>(
                         value: valor.toString(),
-                        child: Text(valor!, style: TextStyle(color: Colors.grey),),
-                    );
-                  }).toList(),                 
-                )   
+                        child: Text(
+                          valor!,
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      );
+                    }).toList(),
+                  )),
+              SizedBox(
+                height: 18,
               ),
-              SizedBox(height: 18,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  
                   _paletaDeCor(),
-                  Botao(label: "Criar Age", onTap:()=> _validacaoDeData())
+                  Botao(label: "Criar Age", onTap: () => _validacaoDeData())
                 ],
               ),
             ],
@@ -145,24 +187,26 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
       ),
     );
   }
-  
-_validacaoDeData(){
-  if(_tituloController.text.isNotEmpty&&_notaController.text.isNotEmpty){
-    _addAgendamentoParaODb();
-    Get.back();
-  }else if(_tituloController.text.isEmpty || _notaController.text.isEmpty){
-    Get.snackbar("Requerido"," Todos os campos são obrigatorios!"
-    ,snackPosition: SnackPosition.BOTTOM,
-    backgroundColor: Colors.white,
-    icon: Icon(Icons.warning_amber_rounded,color: Colors.red,)
-    );
-  }
-}
 
-  _addAgendamentoParaODb(){
-    _taskControle.addTask(
-      task:Task(
-      nota:  _notaController.text,
+  _validacaoDeData() {
+    if (_tituloController.text.isNotEmpty && _notaController.text.isNotEmpty) {
+      _addAgendamentoParaODb();
+      Get.back();
+    } else if (_tituloController.text.isEmpty || _notaController.text.isEmpty) {
+      Get.snackbar("Requerido", " Todos os campos são obrigatorios!",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white,
+          icon: Icon(
+            Icons.warning_amber_rounded,
+            color: Colors.red,
+          ));
+    }
+  }
+
+  _addAgendamentoParaODb() async {
+    int valor = await _taskControle.addTask(
+        task: Task(
+      nota: _notaController.text,
       titulo: _tituloController.text,
       data: DateFormat.yMd().format(dataSelecionada),
       tempoInicial: tempoInicial,
@@ -171,42 +215,50 @@ _validacaoDeData(){
       repetir: _lenbreteSelecionadoRepetir,
       cor: _corSelecionada,
       estaCompleto: 0,
-    )
-    );
+    ));
+    print("Meu id é" + "$valor");
   }
 
-  _paletaDeCor(){
-      return  Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Cores",style: tituloStyle,),
-          SizedBox(height: 18),
-          Wrap(
-            children: List<Widget>.generate(
-                3,
-                (int index){
-                return GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      _corSelecionada = index;
-                      print("$index");
-                    });    
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: CircleAvatar(
-                      radius: 14,
-                      backgroundColor: index ==0? primaryClr:index ==1?rosaClr:amareloClr,
-                      child: _corSelecionada==index?Icon(Icons.done,color: Colors.white,size: 16,):Container()
-                    ),
-                  ),
-                );
-                } 
-            ),
-            
-          ),
-        ],
-      );
+  _paletaDeCor() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Cores",
+          style: tituloStyle,
+        ),
+        SizedBox(height: 18),
+        Wrap(
+          children: List<Widget>.generate(3, (int index) {
+            return GestureDetector(
+              onTap: () {
+                setState(() {
+                  _corSelecionada = index;
+                  print("$index");
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: CircleAvatar(
+                    radius: 14,
+                    backgroundColor: index == 0
+                        ? primaryClr
+                        : index == 1
+                            ? rosaClr
+                            : amareloClr,
+                    child: _corSelecionada == index
+                        ? Icon(
+                            Icons.done,
+                            color: Colors.white,
+                            size: 16,
+                          )
+                        : Container()),
+              ),
+            );
+          }),
+        ),
+      ],
+    );
   }
 
   _AppBar(BuildContext context) {
@@ -241,34 +293,36 @@ _validacaoDeData(){
         firstDate: DateTime(2023),
         lastDate: DateTime(2100));
 
-        if(pegarData!=null){
-          setState(() {
-             dataSelecionada = pegarData;
-             print(dataSelecionada);
-          });        
-        }else{
-
-        }
+    if (pegarData != null) {
+      setState(() {
+        dataSelecionada = pegarData;
+        print(dataSelecionada);
+      });
+    } else {}
   }
 
   _pegarTempoDoUsuario({required bool oTempoInicial}) async {
     var pegarTempo = await exibirTempoDoUsuario();
     String _tempoFormatado = pegarTempo.format(context);
-    if(pegarTempo ==null){
+    if (pegarTempo == null) {
       print("");
-    }else if(oTempoInicial ==true){
-     setState(() {
-        tempoInicial =_tempoFormatado;
-     });
-    }else if(oTempoInicial==false){
+    } else if (oTempoInicial == true) {
       setState(() {
-        tempoFinal =_tempoFormatado;
+        tempoInicial = _tempoFormatado;
+      });
+    } else if (oTempoInicial == false) {
+      setState(() {
+        tempoFinal = _tempoFormatado;
       });
     }
   }
 
-  exibirTempoDoUsuario(){
-    return showTimePicker(initialEntryMode: TimePickerEntryMode.input,context: context, initialTime: TimeOfDay(hour: int.parse(tempoInicial.split(":")[0]), minute: int.parse(tempoInicial.split(":")[1].split(" ")[0])));
+  exibirTempoDoUsuario() {
+    return showTimePicker(
+        initialEntryMode: TimePickerEntryMode.input,
+        context: context,
+        initialTime: TimeOfDay(
+            hour: int.parse(tempoInicial.split(":")[0]),
+            minute: int.parse(tempoInicial.split(":")[1].split(" ")[0])));
   }
-
 }

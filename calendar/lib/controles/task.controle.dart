@@ -1,14 +1,14 @@
-import 'dart:ffi';
+import 'package:calendar/db/db_ajudante.dart';
 import 'package:get/get.dart';
 import 'package:calendar/modelos/tarefa.dart';
 
-class TaskControle extends  GetxController{
+class TaskControle extends GetxController {
   @override
-  void pronto(){
+  void pronto() {
     super.onReady();
   }
 
-  Future <void> addTask({Task? task}){
-    return null; //ARRUMAR ERRRO AQUI
+  Future<int> addTask({Task? task}) async {
+    return await DBajudante.inserir(task);
   }
 }
