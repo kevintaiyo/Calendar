@@ -14,7 +14,7 @@ class DBajudante {
     }
 
     try {
-      String _path = await getDatabasesPath() + 'tasks db';
+      String _path = await getDatabasesPath() + 'tasks.db';
       _db = await openDatabase(
         _path,
         version: _versao,
@@ -37,5 +37,14 @@ class DBajudante {
   static Future<int> inserir(Task? task) async {
     print("Criando um novo");
     return await _db?.insert(_nomeTabela, task!.toJson()) ?? 1;
+  }
+
+  static Future<List<Map<String, dynamic>>> query() async {
+    print("função query chamada");
+    return await _db!.query(_nomeTabela);
+  }
+
+  static deletaDb(Task task) async {
+    return await _db!.delete(_nomeTabela, where: 'id =?', whereArgs: [task.id]);
   }
 }

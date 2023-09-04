@@ -275,14 +275,7 @@ class _addAgendametoPaginaState extends State<addAgendametoPagina> {
           color: Get.isDarkMode ? Colors.white : Colors.black,
         ),
       ),
-      actions: [
-        CircleAvatar(
-          backgroundImage: AssetImage("images/perfil.png"),
-        ),
-        SizedBox(
-          width: 20,
-        )
-      ],
+      actions: [],
     );
   }
 
